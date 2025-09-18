@@ -1,4 +1,27 @@
 services:
+
+  ac-configurator:
+    image: alpine:latest
+    container_name: ac-configurator
+    working_dir: /conf
+    volumes:
+      - ./conf:/conf
+      - ./.env:/tmp/.env
+    command: >
+      sh -c "
+        apk add --no-cache gettext &&
+        export $(grep -v '^#' /tmp/.env | xargs) &&
+        for f in worldserver.conf authserver.conf dbimport.conf; do
+          if [ -f /conf/$f ]; then
+            echo Updating $f with .env variables...
+            envsubst < /conf/$f > /conf/$f.tmp &&
+            mv /conf/$f.tmp /conf/$f
+          fi
+        done
+      "
+    networks:
+      - ac-network
+  
   ac-database:
     container_name: ac-database
     image: mysql:8.0
@@ -30,6 +53,8 @@ services:
       - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
     depends_on:
+      ac-configurator:
+        condition: service_completed_successfully
       ac-database:
         condition: service_healthy
 
@@ -53,6 +78,8 @@ services:
       - ./logs:/azerothcore/env/dist/logs
       - ./data:/azerothcore/env/dist/data:ro
     depends_on:
+      ac-configurator:
+        condition: service_completed_successfully
       ac-database:
         condition: service_healthy
       ac-db-import:
@@ -72,6 +99,8 @@ services:
       - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
     depends_on:
+      ac-configurator:
+        condition: service_completed_successfully
       ac-database:
         condition: service_healthy
       ac-db-import:
