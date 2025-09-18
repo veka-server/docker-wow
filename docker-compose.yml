@@ -74,7 +74,6 @@ services:
       AC_CHARACTER_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_CHARACTERS}"
     ports:
       - "${WORLD_PORT}:8085"
-      - "${SOAP_PORT}:3443"
     volumes:
       - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
