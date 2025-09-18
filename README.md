@@ -23,7 +23,7 @@ docker attach ac-worldserver
 # (dans la console AC> taper :)
 # account create user password
 # account set gmlevel user 3 -1
-# puis Ctrl+C pour revenir à l'hôte
+# puis Ctrl+p puis ctrl+q pour revenir à l'hôte
 
 # Mettre à jour realmlist en DB
 docker compose exec ac-database mysql -uroot -pazerothroot -e "USE acore_auth; UPDATE realmlist SET address = '192.168.1.119', localAddress = '192.168.1.119' WHERE id = 1;"
