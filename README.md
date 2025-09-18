@@ -8,6 +8,7 @@ git clone https://github.com/veka-server/docker-wow.git
 cd docker-wow
 
 # Copier les fichiers data issue du client officiel vers le dossier data
+ cp -R ../archive_data_wow_3.3.3.5a/* ./data/
 
 # Copier les bdd si necessaire 
 
