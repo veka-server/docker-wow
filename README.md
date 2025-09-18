@@ -16,7 +16,7 @@ cd docker-wow
 chmod -R 777 ./
 
 # Démarrer les services
-docker compose up -d --build
+docker compose up -d
 
 # Se connecter au worldserver en interactif pour créer l'admin
 docker attach ac-worldserver
