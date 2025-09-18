@@ -1,0 +1,90 @@
+services:
+  ac-database:
+    container_name: ac-database
+    image: mysql:8.0
+    networks:
+      - ac-network
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./bdd:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=$$MYSQL_ROOT_PASSWORD --execute \"SHOW DATABASES;\""
+      interval: 5s
+      timeout: 10s
+      retries: 40
+
+  ac-db-import:
+    container_name: ac-db-import
+    image: acore/ac-wotlk-db-import:master
+    networks:
+      - ac-network
+    environment:
+      AC_LOGIN_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_AUTH}"
+      AC_WORLD_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_WORLD}"
+      AC_CHARACTER_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_CHARACTERS}"
+    volumes:
+      - ./conf:/azerothcore/env/dist/etc
+      - ./logs:/azerothcore/env/dist/logs
+    depends_on:
+      ac-database:
+        condition: service_healthy
+
+  ac-worldserver:
+    container_name: ac-worldserver
+    image: acore/ac-wotlk-worldserver:master
+    networks:
+      - ac-network
+    restart: always
+    environment:
+      AC_LOGIN_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_AUTH}"
+      AC_WORLD_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_WORLD}"
+      AC_CHARACTER_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_CHARACTERS}"
+    ports:
+      - "${WORLD_PORT}:8085"
+      - "${SOAP_PORT}:3443"
+    volumes:
+      - ./conf:/azerothcore/env/dist/etc
+      - ./logs:/azerothcore/env/dist/logs
+      - ./data:/azerothcore/env/dist/data:ro
+    depends_on:
+      ac-database:
+        condition: service_healthy
+      ac-db-import:
+        condition: service_completed_successfully
+
+  ac-authserver:
+    container_name: ac-authserver
+    image: acore/ac-wotlk-authserver:master
+    networks:
+      - ac-network
+    restart: always
+    environment:
+      AC_LOGIN_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_AUTH}"
+    ports:
+      - "${AUTH_PORT}:3724"
+    volumes:
+      - ./conf:/azerothcore/env/dist/etc
+      - ./logs:/azerothcore/env/dist/logs
+    depends_on:
+      ac-database:
+        condition: service_healthy
+      ac-db-import:
+        condition: service_completed_successfully
+
+#  ac-tools:
+#    container_name: ac-tools
+#    image: acore/ac-wotlk-tools:master
+#    networks:
+#      - ac-network
+#    working_dir: /azerothcore/env/dist/bin/
+#    volumes:
+#      - ./client/Data:/azerothcore/env/dist/bin/Data
+#      - ./data:/azerothcore/env/dist/data
+#    profiles: [tools]
+
+networks:
+  ac-network:
