@@ -1,27 +1,5 @@
 services:
-
-  ac-configurator:
-    image: alpine:latest
-    container_name: ac-configurator
-    working_dir: /conf
-    volumes:
-      - ./conf:/conf
-      - ./.env:/tmp/.env
-    command: >
-      sh -c "
-        apk add --no-cache gettext &&
-        export $(grep -v '^#' /tmp/.env | xargs) &&
-        for f in worldserver.conf authserver.conf dbimport.conf; do
-          if [ -f /conf/$f ]; then
-            echo Updating $f with .env variables...
-            envsubst < /conf/$f > /conf/$f.tmp &&
-            mv /conf/$f.tmp /conf/$f
-          fi
-        done
-      "
-    networks:
-      - ac-network
-  
+ 
   ac-database:
     container_name: ac-database
     image: mysql:8.0
@@ -50,7 +28,6 @@ services:
       AC_WORLD_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_WORLD}"
       AC_CHARACTER_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_CHARACTERS}"
     volumes:
-      - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
     depends_on:
       ac-configurator:
@@ -67,6 +44,7 @@ services:
     stdin_open: true
     tty: true
     environment:
+      AC_START_PLAYER_LEVEL: "20" # niveau des nouveau personnages
       AC_DATA_DIR: "/azerothcore/env/dist/data"
       AC_LOGS_DIR: "/azerothcore/env/dist/logs"
       AC_LOGIN_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_AUTH}"
@@ -75,7 +53,6 @@ services:
     ports:
       - "${WORLD_PORT}:8085"
     volumes:
-      - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
       - ./data:/azerothcore/env/dist/data:ro
     depends_on:
@@ -97,7 +74,6 @@ services:
     ports:
       - "${AUTH_PORT}:3724"
     volumes:
-      - ./conf:/azerothcore/env/dist/etc
       - ./logs:/azerothcore/env/dist/logs
     depends_on:
       ac-configurator:
