@@ -64,6 +64,8 @@ A few examples:
 - `AllowTwoSide.Interaction.Calendar` => `AC_ALLOW_TWO_SIDE_INTERACTION_CALENDAR`
 
 
+## Sources
 
 Doc officiel https://github.com/azerothcore/wiki/blob/master/docs/install-with-docker.md
+
 Liste des commandes GM : https://www.azerothcore.org/wiki/gm-commands
