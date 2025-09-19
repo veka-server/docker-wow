@@ -42,7 +42,9 @@ services:
     stdin_open: true
     tty: true
     environment:
-      AC_START_PLAYER_LEVEL: "20" # niveau des nouveau personnages
+      AC_START_PLAYER_LEVEL: "1" # niveau des nouveau personnages
+      AC_INSTANCE_IGNORE_LEVEL: "0"
+      AC_INSTANCE_IGNORE_RAID: "0"
       AC_DATA_DIR: "/azerothcore/env/dist/data"
       AC_LOGS_DIR: "/azerothcore/env/dist/logs"
       AC_LOGIN_DATABASE_INFO: "${DB_HOST};${MYSQL_PORT};${MYSQL_USER};${MYSQL_ROOT_PASSWORD};${DB_AUTH}"
