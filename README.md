@@ -19,7 +19,7 @@ nano .env
 # Démarrer les services
 docker compose up -d
 
-# attendre que le ac-worldserver sois pret
+# attendre que le ac-worldserver soit pret
 
 # Se connecter au worldserver en interactif pour créer l'admin
 docker attach ac-worldserver
