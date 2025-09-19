@@ -62,3 +62,7 @@ A few examples:
 - `foo.bar_baz` => `AC_FOO_BAR_BAZ`
 - `MaxPrimaryTradeSkill` => `AC_MAX_PRIMARY_TRADE_SKILL`
 - `AllowTwoSide.Interaction.Calendar` => `AC_ALLOW_TWO_SIDE_INTERACTION_CALENDAR`
+
+
+
+Doc officiel https://github.com/azerothcore/wiki/blob/master/docs/install-with-docker.md
