@@ -24,8 +24,8 @@ docker compose up -d
 # Se connecter au worldserver en interactif pour créer l'admin
 docker attach ac-worldserver
 # (dans la console AC> taper :)
-# account create user password
-# account set gmlevel user 3 -1
+# account create <user> <password>
+# account set gmlevel <user> 3 -1
 # puis Ctrl+p puis ctrl+q pour revenir à l'hôte
 
 # Mettre à jour realmlist en DB
