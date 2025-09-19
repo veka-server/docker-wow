@@ -66,3 +66,4 @@ A few examples:
 
 
 Doc officiel https://github.com/azerothcore/wiki/blob/master/docs/install-with-docker.md
+Liste des commandes GM : https://www.azerothcore.org/wiki/gm-commands
