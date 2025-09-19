@@ -39,3 +39,26 @@ docker compose exec ac-database mysql -uroot -pazerothroot -e "USE acore_auth; S
 # set realmlist 192.168.1.119
 
 ```
+
+## Configuring AzerothCore in Containers
+
+```yaml
+# docker-compose.yml
+services:
+  ac-worldserver:
+    environment:
+      AC_ALLOW_TWO_SIDE_INTERACTION_CALENDAR: "1" # AllowTwoSide.Interaction.Calendar
+```
+
+Figuring out the environment variable name of a configuration parameter can be a bit difficult. The general rules for this:
+
+- The entire parameter is prefixed with `AC_`
+- Periods (`.`) become underscores (`_`)
+- A sequence with a lowercase letter and then an uppercase letter inserts an underscore (`_`) between them
+- The entire parameter is uppercased (so `foo` becomes `FOO`)
+
+A few examples:
+
+- `foo.bar_baz` => `AC_FOO_BAR_BAZ`
+- `MaxPrimaryTradeSkill` => `AC_MAX_PRIMARY_TRADE_SKILL`
+- `AllowTwoSide.Interaction.Calendar` => `AC_ALLOW_TWO_SIDE_INTERACTION_CALENDAR`
