@@ -7,13 +7,14 @@ server wow azerothcore docker
 git clone https://github.com/veka-server/docker-wow.git
 cd docker-wow
 
-# Copier les fichiers data issue du client officiel vers le dossier data
- cp -R ../archive_data_wow_3.3.3.5a/* ./data/
+# Creer le fichier .env
+cp .env-dist .env
 
-# Copier les bdd si necessaire 
+# Editer le fichier de config
+nano .env
 
-# corriger les droits sur les dossiers
-chmod -R 777 ./
+# corriger les droits sur les dossiers si neccesaire
+# chmod -R 777 ...
 
 # Démarrer les services
 docker compose up -d
