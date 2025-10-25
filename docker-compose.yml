@@ -20,7 +20,7 @@ services:
     labels:
       - "homepage.group=Gaming"
       - "homepage.name=Mysql database for WOW"
-      - "homepage.icon=wow.png"
+      - "homepage.icon=/icons/wow.png"
       - "homepage.description=Base de données PostgreSQL pour WOW"
       
   ac-db-import:
@@ -68,7 +68,7 @@ services:
     labels:
       - "homepage.group=Gaming"
       - "homepage.name=World server for WOW"
-      - "homepage.icon=wow.png"
+      - "homepage.icon=/icons/wow.png"
       - "homepage.description=Serveur de jeux pour WOW"
       
   ac-authserver:
@@ -91,7 +91,7 @@ services:
     labels:
       - "homepage.group=Gaming"
       - "homepage.name=Auth server for WOW"
-      - "homepage.icon=wow.png"
+      - "homepage.icon=/icons/wow.png"
       - "homepage.description=Serveur de royaume pour WOW"
       
 #  ac-tools:
