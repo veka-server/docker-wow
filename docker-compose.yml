@@ -21,7 +21,7 @@ services:
       - "homepage.group=Gaming"
       - "homepage.name=Mysql database for WOW"
       - "homepage.icon=/icons/wow.png"
-      - "homepage.description=Base de données PostgreSQL pour WOW"
+      - "homepage.description=Base de données MySQL pour WOW"
       
   ac-db-import:
     container_name: ac-db-import
