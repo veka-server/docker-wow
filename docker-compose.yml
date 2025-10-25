@@ -17,7 +17,12 @@ services:
       interval: 5s
       timeout: 10s
       retries: 40
-
+    labels:
+      - "homepage.group=Gaming"
+      - "homepage.name=Mysql database for WOW"
+      - "homepage.icon=https://e1.pngegg.com/pngimages/832/663/png-clipart-wow-high-rez-icon-world-of-warcraft-logo.png"
+      - "homepage.description=Base de données PostgreSQL pour WOW"
+      
   ac-db-import:
     container_name: ac-db-import
     image: acore/ac-wotlk-db-import:master
@@ -32,7 +37,7 @@ services:
     depends_on:
       ac-database:
         condition: service_healthy
-
+      
   ac-worldserver:
     container_name: ac-worldserver
     image: acore/ac-wotlk-worldserver:master
@@ -60,7 +65,12 @@ services:
         condition: service_healthy
       ac-db-import:
         condition: service_completed_successfully
-
+    labels:
+      - "homepage.group=Gaming"
+      - "homepage.name=World server for WOW"
+      - "homepage.icon=https://e1.pngegg.com/pngimages/832/663/png-clipart-wow-high-rez-icon-world-of-warcraft-logo.png"
+      - "homepage.description=Serveur de jeux pour WOW"
+      
   ac-authserver:
     container_name: ac-authserver
     image: acore/ac-wotlk-authserver:master
@@ -78,7 +88,12 @@ services:
         condition: service_healthy
       ac-db-import:
         condition: service_completed_successfully
-
+    labels:
+      - "homepage.group=Gaming"
+      - "homepage.name=Auth server for WOW"
+      - "homepage.icon=https://e1.pngegg.com/pngimages/832/663/png-clipart-wow-high-rez-icon-world-of-warcraft-logo.png"
+      - "homepage.description=Serveur de royaume pour WOW"
+      
 #  ac-tools:
 #    container_name: ac-tools
 #    image: acore/ac-wotlk-tools:master
